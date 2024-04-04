@@ -1,0 +1,46 @@
+{% load static %}
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Thayná Quinteiro">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cad_atividade.css' %}">
+    <title>Cadastro de Atividades</title>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-bar">
+
+                <h1>Bem vindo(a) professor, cadastre a atividade de sua turma!</h1>
+                <button>SAIR</button>
+
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="form-turma">
+            <div class="turmas">
+                <form action="/cadastrar_atividade" method="post">
+                    <h1>Cadastre a Atividade</h1>
+                    <!-- <label for="">Código da Atividade</label>
+                    <input type="text" name="codigo-atividade"> -->
+                    <label for="descrition">Descrição</label>
+                    <input type="text" name="descricao">
+                    <button id="enviar">Cadastrar</button>
+                </form>
+            </div>
+
+            <div class="error-message">
+                <!--Mensagem de erro inserida aqui-->
+            </div>
+
+        </div>
+    </main>
+
+</body>
+
+</html>

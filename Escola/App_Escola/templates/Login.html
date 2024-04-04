@@ -1,0 +1,29 @@
+{% load static %} <!-- serve para carregar os componentes da pasta static do servidor -->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="author" content="Thayná Quinteiro">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+		<title>Login</title>
+	</head>
+    
+	<body>
+		<div>
+			<form action="/enviar_login" method="post">
+				<h1>LOGIN</h1>
+				<label for="email">E-mail</label>
+				<input type="text" name="email" placeholder="Informe seu email">
+				<label for="password">Senha</label>
+				<input type="password" name="senha" placeholder="Informe sua senha">
+				<button id="enviar">Sigin</button>
+			</form>
+
+			<div class="error-message">
+				<!--Mensagem de erro inserida aqui-->
+			</div>
+
+		</div>	
+	</body>
+
+</html>

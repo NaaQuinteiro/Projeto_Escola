@@ -1,0 +1,41 @@
+{% load static %}
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="author" content="Thayná Quinteiro">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/cadastro.css' %}">
+		<title>Cadastro</title>
+	</head>
+
+	<body>
+
+		
+
+
+		<div>
+			<form action="/confirmar_cadastro" method="post">
+
+				<div class="welcome-message">
+					{welcome_message}
+				</div>
+
+				<h1>Cadastro</h1>
+				<label for="name">Nome</label>
+				<input type="text" name="nome" id="nome" placeholder="Informe seu nome" required>
+
+				<label for="email">E-mail</label>
+				<input type="email" id="login" name="login" placeholder="Informe seu email" value="{login}"required>
+
+				<label for="password"> Confirme a Senha</label>
+				<input type="password" id="senha" name="senha" placeholder="Informe sua senha" required>
+
+				<button type="submit" id="enviar">Cadastre-se</button>
+			</form>
+		</div>	
+
+		
+
+	</body>
+
+</html>
