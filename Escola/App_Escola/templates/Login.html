@@ -10,13 +10,24 @@
     
 	<body>
 		<div>
-			<form action="/enviar_login" method="post">
+			{% if messages %}
+				<ul class="mensagem_do_servidor">
+					{% for mensagem in messages %}
+						<li {% if mensagem.tags %} class="alert alert-{{message.tags}}" {% endif %}>{{mensagem}}/li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+
+			<form action="{% url 'enviar_login' %}" method="post"> {% csrf_token %}
+
 				<h1>LOGIN</h1>
 				<label for="email">E-mail</label>
-				<input type="text" name="email" placeholder="Informe seu email">
+				<input type="email" id="emial" name="email" placeholder="Informe seu email" required>
+
 				<label for="password">Senha</label>
-				<input type="password" name="senha" placeholder="Informe sua senha">
-				<button id="enviar">Sigin</button>
+				<input type="password" id="senha" name="senha" placeholder="Informe sua senha" required>
+
+				<button type="submit" id="enviar">Sigin</button>
 			</form>
 
 			<div class="error-message">
