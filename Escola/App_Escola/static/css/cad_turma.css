@@ -142,3 +142,10 @@ header {
     margin-top: 20vh;
 }
 
+.turmas a {
+    display: flex;
+    justify-content: center;
+    font-size: 14px;
+    padding-bottom: 10px;
+}
+

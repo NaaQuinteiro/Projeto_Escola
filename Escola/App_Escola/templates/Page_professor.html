@@ -17,7 +17,7 @@
         <nav>
             <div class="nav-bar">
                
-                <h1>Bem vindo(a) professor, cadastre sua turma!</h1>
+                <h1>Olá, seja bem vindo ao seus sistema de apoio</h1>
                 <button>SAIR</button>
                
             </div>
@@ -26,38 +26,50 @@
 
     <main>
         <div class="titulos">
-           <h3>{nome_professor}</h3>  <!-- aqq o servidor vai ter que jogar o nome inserido no cadastro -->
-           <form action="/cadastrar_turma"><button type="submit" name="tela_cadastro">CADASTRAR</button></form>
+           <h3>Professor(a): {{usuario_logado}}</h3>  <!-- aqq o servidor vai ter que jogar o nome inserido no cadastro -->
+          <button type="submit" name="tela_cadastro"><a href="/cad_turma/{{id_logado}}" style="text-decoration: none; color: white;">CADASTRAR</a></button>
         </div>
 
         <div class="tabela">
             <table>
-
                 <tr>
                     <th>Número</th>
                     <th>Turma</th>
                     <th>Ação</th>
                 </tr>
 
+                {% for igs in turmas_do_professor %}
                 <tr>
-                    <td>1</td>
-                    <td>Desenvolvimento de Sistemas</td>
+                    <td>{{igs.id}}</td>
+                    <td>{{igs.nome_turma}}</td>
                     <td>
-                        <button id="exclude">Excluir</button>
-                        <button id="view">Vizualizar</button>
+                        <button id="exclude"><a href="javascript:valida_excluir({{igs.id}})" style="text-decoration: none; color: white;">Excluir</a></button>
+                        <button id="view"><a href="/ver_atividades?id_turma={{igs.id}}&who={{id_logado}}" style="text-decoration: none; color: white;">Vizualizar</a></button>
                     </td>
                 </tr>
-
-                <tr>
-                    <td>2</td>
-                    <td>Mecatronica</td>
-                    <td>
-                        <button id="exclude">Excluir</button>
-                        <button id="view">Vizualizar</button>
-                    </td>
-                </tr>
+                {% endfor %}
 
             </table>
+
+            <script>
+                function valida_excluir(id){
+                    //primeiro exibe a mensagem de confirmação
+                    let userConfirmation = confirm("Você tem certeza de que deseja excluir este item?");
+
+                    //Se o usuário confirma a exclusão 
+                    if(userConfirmation){
+                        id=id;
+                        endereco = '/excluir_turma/'+ id;
+                        window.location.href=endereco;
+                    }
+
+                    //Se o usuário cancelou a exclusão
+                    else{
+                        console.log('Operação de exclusão cancelada.');
+                    }
+                }
+            </script>
+
         </div>
 
     </main>

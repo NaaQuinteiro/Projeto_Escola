@@ -13,7 +13,7 @@
 			{% if messages %}
 				<ul class="mensagem_do_servidor">
 					{% for mensagem in messages %}
-						<li {% if mensagem.tags %} class="alert alert-{{message.tags}}" {% endif %}>{{mensagem}}/li>
+						<p {% if mensagem.tags %} class="alert alert-{{message.tags}}" {% endif %}>{{mensagem}}</p>
 					{% endfor %}
 				</ul>
 			{% endif %}

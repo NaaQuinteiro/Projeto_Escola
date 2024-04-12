@@ -13,7 +13,7 @@
         <nav>
             <div class="nav-bar">
 
-                <h1>Bem vindo(a) professor, cadastre sua turma!</h1>
+                <h1 id="nome_logado">Bem vinda a sua página de cadastro de turmas {{usuario_logado}}</h1>
                 <button>SAIR</button>
 
             </div>
@@ -22,14 +22,25 @@
 
     <main>
         <div class="form-turma">
+
+            {% if messages %}
+                <ul class="mensagem_do_servidor">
+                    {% for mensagem in messages %}
+                        <p {% if mensagem.tags %} class="alert alert-{{message.tags}}" {% endif %}>{{mensagem}}</p>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
             <div class="turmas">
-                <form action="/cadastrar_turma" method="post">
+                <form id="form" class="form" action="{% url 'salvar_turma_nova' %}" method="post">{% csrf_token %}
                     <h1>Cadastre a Turma</h1>
-                    <!-- <label for="">Código da Turma</label>
-                    <input type="text" name="codigo-turma"> -->
+
                     <label for="descrition">Nome</label>
-                    <input type="text" name="descricao">
-                    <button id="enviar">Cadastrar</button>
+
+                    <input type="hidden" name="id_professor" id="id_logado" value="{{id_logado}}">
+                    <input type="text" id="nome_turma" name="nome_turma" value="" placeholder="Insira o nome da turma">
+                    <a style="display: flex;justify-content: center;font-size: 14px;padding-bottom: 10px;">Nome deve ter no mínimo 3 caracteres</a>
+                    <button type="submit" class="btn_conf_cancel btn_confirmar">Cadastrar</button>
                 </form>
             </div>
 
