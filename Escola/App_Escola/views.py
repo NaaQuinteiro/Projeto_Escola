@@ -147,7 +147,7 @@ def salvar_turma_nova(request):
 
         #redirecionando para nova url após gravação vem sucedida 
         return redirect('lista_turma', id_professor=id_professor)
-    
+        
 
 def lista_turma(request, id_professor):
     dados_professor = Professor.objects.filter(id=id_professor).values("nome", "id")
@@ -161,12 +161,35 @@ def lista_turma(request, id_professor):
                    'id_logado': id_logado})
 
 
-# def abre_pageProfessor(request):
-#     return render(request, 'Page_professor.html')
+# PARTE NOVA SE DER ERRO APAGA Q DA TUDO CERTO
+
+def salvar_atividade_nova(request):
+    if(request.method == 'POST'):
+        nome_atividade = request.POST.get('nome_atividade')
+        id_selecionado = request.POST.get('id_selecionado')    
+        print(f'salvar_atividade{nome_atividade}{id_selecionado}') 
+
+        turma = Turma.objects.get(id=id_selecionado)         
+
+        grava_atividade = Atividade(
+            nome_atividade = nome_atividade,
+            id_turma=turma,
+        )
+        print(f'resultados de salvar atividade {nome_atividade}{turma}')
+
+        grava_atividade.save()
+        return redirect('lista_atividade', id_selecionado=id_selecionado)
 
 
-# def abre_cadastroTurma(request):
-#     return render(request, 'CadastroTurma.html')
+def lista_atividade(request, id_selecionado):
+    print(f'captura da turma {id_selecionado}')
+    dados_turma = Turma.objects.filter(id=id_selecionado).values('nome_turma', 'id')
+    print(f'dados da Turma {dados_turma}')
+   
+    atividades_da_turma = Atividade.objects.filter(id_turma = id_selecionado)
+    print(f'Atividaes retornadas {atividades_da_turma}')
+    print(id_selecionado)
 
-# def abre_cadastroAtividade(request):
-#     return render(request, 'CadastroAtividade.html')
+    return render(request, 'CadastroAtividade.html',
+                  {'atividades_da_turma': atividades_da_turma, 
+                   'id_selecionado':id_selecionado })

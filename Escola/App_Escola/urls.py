@@ -8,9 +8,8 @@ urlpatterns = [
     path('confirmar_cadastro/', views.confirmar_cadastro, name='confirmar_cadastro'),
     path('cad_turma/<int:id_professor>', views.cad_turma, name='cad_turma'),
     path('salvar_turma', views.salvar_turma_nova, name='salvar_turma_nova'),
-    path('lista_turma/<int:id_professor>', views.lista_turma, name='lista_turma')
-    # path('pageProfessor/', views.abre_pageProfessor, name='abre_pageProfessor'),
-    # path('cadastroAtividade/', views.abre_cadastroAtividade, name='abre_cadastroAtividade'),
-    # path('cadastroTurma/', views.abre_cadastroTurma, name='abre_cadastroTurma'),    
+    path('lista_turma/<int:id_professor>', views.lista_turma, name='lista_turma'),
+    path('lista_atividade/<int:id_selecionado>', views.lista_atividade, name='lista_atividade' ),
+    path('salvar_atividade_nova', views.salvar_atividade_nova, name='salvar_atividade_nova')
     
 ]

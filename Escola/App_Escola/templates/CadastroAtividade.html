@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Thayná Quinteiro">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/cad_atividade.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '../static/css/cad_atividade.css' %}">
     <title>Cadastro de Atividades</title>
 </head>
 
@@ -14,7 +14,7 @@
         <nav>
             <div class="nav-bar">
 
-                <h1>Bem vindo(a) professor, cadastre a atividade de sua turma!</h1>
+                <h1>Cadastre as atividades da turma!</h1>
                 <button>SAIR</button>
 
             </div>
@@ -22,15 +22,60 @@
     </header>
 
     <main>
+
+        <div class="tabela" style="display: flex;justify-content: center;align-items: center;padding-top: 50px;">
+            <table style="border-collapse: collapse;padding: 30px;text-align: center;font-family: 'Roboto-Condensed', sans-serif;font-size: 17px;border-bottom: 2px solid #495057;gap: 10px;">
+                <tr>
+                    <th style="padding: 5px;">Número da Atividade</th>
+                    <th style="padding: 5px;">Atividades da Turma</th>
+                    <td></td>
+                </tr>
+
+                {% for igs in atividades_da_turma %}
+                <tr>
+                    <td>{{igs.id}}</td>
+                    <td>{{igs.nome_atividade}}</td>
+                </tr>
+                {% endfor %}
+
+            </table>
+
+            <script>
+                function valida_excluir(id){
+                    //primeiro exibe a mensagem de confirmação
+                    let userConfirmation = confirm("Você tem certeza de que deseja excluir este item?");
+
+                    //Se o usuário confirma a exclusão 
+                    if(userConfirmation){
+                        id=id;
+                        endereco = '/excluir_atividade/'+ id;
+                        window.location.href=endereco;
+                    }
+
+                    //Se o usuário cancelou a exclusão
+                    else{
+                        console.log('Operação de exclusão cancelada.');
+                    }
+                }
+            </script>
+        </div>
+
         <div class="form-turma">
+
+            {% if messages %}
+                <ul class="mensagem_do_servidor">
+                    {% for mensagem in messages %}
+                        <p {% if mensagem.tags %} class="alert alert-{{message.tags}}" {% endif %}>{{mensagem}}</p>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
             <div class="turmas">
-                <form action="/cadastrar_atividade" method="post">
-                    <h1>Cadastre a Atividade</h1>
-                    <!-- <label for="">Código da Atividade</label>
-                    <input type="text" name="codigo-atividade"> -->
-                    <label for="descrition">Descrição</label>
-                    <input type="text" name="descricao">
-                    <button id="enviar">Cadastrar</button>
+                <form id="form" class="form" action="{% url 'salvar_atividade_nova' %}" method="post">{% csrf_token %}
+                    <input type="hidden" name="id_selecionado" id="id_selecionado" value="{{id_selecionado}}">
+                    <label for="descrition">Descrição da Atividade</label>
+                    <input type="text" id="nome_atividade" name="nome_atividade" value="" placeholder="Insira a atividade">
+                    <button type="submit" class="btn_conf_cancel btn_confirmar"><a href="/salvar_atividade_nova/{{id_turma}}"></a>Cadastrar</button>
                 </form>
             </div>
 
@@ -39,6 +84,9 @@
             </div>
 
         </div>
+
+       
+
     </main>
 
 </body>
