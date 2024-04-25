@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from hashlib import sha256
 from .models import Professor, Turma, Atividade
 from django.db import connection, transaction
@@ -193,3 +193,23 @@ def lista_atividade(request, id_selecionado):
     return render(request, 'CadastroAtividade.html',
                   {'atividades_da_turma': atividades_da_turma, 
                    'id_selecionado':id_selecionado })
+
+
+def valida_excluir(request, id_turma):
+   
+    id_professor = request.GET.get('id_professor')
+   
+    turma = get_object_or_404(Turma, id=id_turma)
+   
+    if Atividade.objects.filter(id_turma=turma.id):
+        messages.info(request, 'Não é possível excluir esta turma pois ela tem atividades cadastradas.')
+       
+        return redirect('lista_turma', id_professor=id_professor)
+    
+    turma.delete()
+
+    return redirect('lista_turma', id_professor=id_professor)
+
+
+def sair(request):
+    return render(request, 'Login.html')

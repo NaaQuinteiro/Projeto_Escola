@@ -18,7 +18,7 @@
             <div class="nav-bar">
                
                 <h1>Olá, seja bem vindo ao seus sistema de apoio</h1>
-                <button>SAIR</button>
+                <button><a href="{% url 'sair' %}" style="text-decoration: none;color:#e9ecef;">SAIR</a></button>
                
             </div>
         </nav>
@@ -29,6 +29,15 @@
            <h3>Professor(a): {{usuario_logado}}</h3>  <!-- aqq o servidor vai ter que jogar o nome inserido no cadastro -->
           <button type="submit" name="tela_cadastro"><a href="/cad_turma/{{id_logado}}" style="text-decoration: none; color: white;">CADASTRAR</a></button>
         </div>
+
+        {% if messages %}
+            <ul class="mensagem_do_servidor">
+                {% for mensagem in messages %}
+                    <p {% if mensagem.tags %} class="alert alert-{{message.tags}}" {% endif %}>{{mensagem}}</p>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
 
         <div class="tabela">
             <table>
@@ -43,8 +52,8 @@
                     <td>{{igs.id}}</td>
                     <td>{{igs.nome_turma}}</td>
                     <td>
-                        <button id="exclude"><a href="javascript:valida_excluir({{igs.id}})" style="text-decoration: none; color: white;">Excluir</a></button>
-                        <!--<button id="view"><a href="/lista_atividade?id_turma={{igs.id}}" style="text-decoration: none; color: white;">Vizualizar</a></button>-->
+                        <button id="exclude"><a href = "/valida_excluir/{{igs.id}}?id_professor={{id_logado}}" style="text-decoration: none; color: white;">Excluir</a></button>
+
                         <button id="view"><a href="{% url 'lista_atividade' id_selecionado=igs.id %}" style="text-decoration: none; color: white;">Vizualizar</a></button>
                     </td>
                 </tr>
@@ -52,24 +61,7 @@
 
             </table>
 
-            <script>
-                function valida_excluir(id){
-                    //primeiro exibe a mensagem de confirmação
-                    let userConfirmation = confirm("Você tem certeza de que deseja excluir este item?");
-
-                    //Se o usuário confirma a exclusão 
-                    if(userConfirmation){
-                        id=id;
-                        endereco = '/excluir_turma/'+ id;
-                        window.location.href=endereco;
-                    }
-
-                    //Se o usuário cancelou a exclusão
-                    else{
-                        console.log('Operação de exclusão cancelada.');
-                    }
-                }
-            </script>
+            
 
         </div>
 
