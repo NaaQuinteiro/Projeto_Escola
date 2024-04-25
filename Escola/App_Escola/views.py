@@ -1,3 +1,5 @@
+import mimetypes
+import os
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from hashlib import sha256
@@ -169,15 +171,20 @@ def salvar_atividade_nova(request):
         id_selecionado = request.POST.get('id_selecionado')    
         print(f'salvar_atividade{nome_atividade}{id_selecionado}') 
 
-        turma = Turma.objects.get(id=id_selecionado)         
+        turma = Turma.objects.get(id=id_selecionado)     
+
+        arquivo = request.FILES.get('arquivo')   
+        print (arquivo) 
 
         grava_atividade = Atividade(
             nome_atividade = nome_atividade,
             id_turma=turma,
+            arquivo = arquivo
         )
-        print(f'resultados de salvar atividade {nome_atividade}{turma}')
+        print(f'resultados de salvar atividade {nome_atividade}{turma}{arquivo}')
 
         grava_atividade.save()
+
         return redirect('lista_atividade', id_selecionado=id_selecionado)
 
 
@@ -210,6 +217,22 @@ def valida_excluir(request, id_turma):
 
     return redirect('lista_turma', id_professor=id_professor)
 
+
+def exibir_arquivo(request, nome_arquivo):
+    caminho_arquivo = os.path.join('atividade_arquivos/', nome_arquivo)
+
+    if os.path.exists(caminho_arquivo):
+        with open(caminho_arquivo, 'rb') as arquivo:
+            conteudo = arquivo.read()
+        
+        tipo_mimetype, _ = mimetypes.guess_type(caminho_arquivo)
+
+        resposta = HttpResponse(conteudo, content_type=tipo_mimetype)
+
+        resposta['Content-Disposition'] = 'inline; filename="' + nome_arquivo + '"'
+        return resposta
+    else:
+        return HttpResponse('Arquivo não encontrado', status=404)
 
 def sair(request):
     return render(request, 'Login.html')

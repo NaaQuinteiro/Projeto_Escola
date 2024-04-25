@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Thayná Quinteiro">
     <link rel="stylesheet" type="text/css" href="{% static '../static/css/cad_atividade.css' %}">
+    <script src="https://kit.fontawesome.com/25d4e35f0f.js" crossorigin="anonymous"></script>
     <title>Cadastro de Atividades</title>
 </head>
 
@@ -28,6 +29,7 @@
                 <tr>
                     <th style="padding: 5px;">Número da Atividade</th>
                     <th style="padding: 5px;">Atividades da Turma</th>
+                    <th style="padding: 5px;">Arquivo</th>
                     <td></td>
                 </tr>
 
@@ -35,29 +37,19 @@
                 <tr>
                     <td>{{igs.id}}</td>
                     <td>{{igs.nome_atividade}}</td>
+                    <td>
+                        {% if igs.arquivo %}
+                            <a href="../../{{igs.arquivo}}"><p>Arquivo</p></a>
+                            <!-- <a href="{{igs.arquivo}}"><i class="fa-regular fa-file-lines"></i></a> -->
+                        {% else %}
+                            <p>Não existe arquivos anexados</p>
+                        {% endif %}
+                    </td>
                 </tr>
                 {% endfor %}
 
             </table>
 
-            <script>
-                function valida_excluir(id){
-                    //primeiro exibe a mensagem de confirmação
-                    let userConfirmation = confirm("Você tem certeza de que deseja excluir este item?");
-
-                    //Se o usuário confirma a exclusão 
-                    if(userConfirmation){
-                        id=id;
-                        endereco = '/excluir_atividade/'+ id;
-                        window.location.href=endereco;
-                    }
-
-                    //Se o usuário cancelou a exclusão
-                    else{
-                        console.log('Operação de exclusão cancelada.');
-                    }
-                }
-            </script>
         </div>
 
         <div class="form-turma">
@@ -71,10 +63,11 @@
             {% endif %}
 
             <div class="turmas">
-                <form id="form" class="form" action="{% url 'salvar_atividade_nova' %}" method="post">{% csrf_token %}
+                <form id="form" class="form" enctype="multipart/form-data" action="{% url 'salvar_atividade_nova' %}" method="post">{% csrf_token %}
                     <input type="hidden" name="id_selecionado" id="id_selecionado" value="{{id_selecionado}}">
                     <label for="descrition">Descrição da Atividade</label>
                     <input type="text" id="nome_atividade" name="nome_atividade" value="" placeholder="Insira a atividade">
+                    <input type="file" id="arquivo" name="arquivo" value="Caminho do arquivo">
                     <button type="submit" class="btn_conf_cancel btn_confirmar"><a href="/salvar_atividade_nova/{{id_turma}}"></a>Cadastrar</button>
                 </form>
             </div>
