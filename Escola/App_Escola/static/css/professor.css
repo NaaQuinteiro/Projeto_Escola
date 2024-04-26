@@ -91,27 +91,37 @@ header {
     font-size: 18px;
 }
 
-.tabela {
+
+.tabela{
     display: flex;
     justify-content: center;
+    padding: 20px;
     align-items: center;
-    padding-top: 50px;
+    background-color: white; /* Adiciona um fundo branco à tabela */
+    width: 50%; /* Define uma largura fixa para a tabela */
+    margin: auto; /* Centraliza a tabela na página */
+    border-radius: 10px; /* Adiciona bordas arredondadas */
+    overflow-x: auto; /* Adiciona rolagem horizontal caso a tabela seja muito larga */
 }
 
-table,
-th,
-td {
+table {
+    width: 100%; /* Faz a tabela ocupar toda a largura da div pai */
     border-collapse: collapse;
-    /*define a separação entre as bordar*/
-    padding: 30px;
+    padding: 10px; /* Reduz o espaçamento interno das células */
     text-align: center;
     font-family: "Roboto-Condensed", sans-serif;
     font-size: 17px;
-    border-bottom: 2px solid #495057;
 }
 
+th,
+td {
+    padding: 10px; /* Reduz o espaçamento interno das células */
+    border-bottom: 1px solid #929fac;
+}
+
+
 button#exclude {
-    width: 100px;
+    width: 90px;
     background-color:rgba(77,15,185,1);
     padding: 10px 10px 10px 10px;
     align-items: center;
@@ -119,7 +129,7 @@ button#exclude {
     font-family: "Roboto-Condensed", sans-serif;
     font-size: 17px;
     color: white;
-    border-radius: 18px;
+    border-radius: 16px;
 }
 
 a {
@@ -127,7 +137,7 @@ a {
 }
 
 button#view {
-    width: 100px;
+    width: 90px;
     background-color: #7209B7;
     padding: 10px 10px 10px 10px;
     align-items: center;
@@ -135,7 +145,7 @@ button#view {
     font-family: "Roboto-Condensed", sans-serif;
     font-size: 17px;
     color: white;
-    border-radius: 18px;
+    border-radius: 16px;
 
 }
 
@@ -155,4 +165,15 @@ p.alert.alert- {
     justify-content: center;
     margin-top: 20px;
     font-family: 'Raleway';
+}
+
+/* Estilo para mensagens do servidor */
+.mensagem_do_servidor {
+    list-style-type: none; /* Remove a marcação de lista */
+    padding: 0;
+    text-align: center;
+}
+
+.mensagem_do_servidor p {
+    margin: 10px 0; /* Adiciona espaço entre as mensagens */
 }

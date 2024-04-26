@@ -3,9 +3,12 @@ import os
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from hashlib import sha256
-from .models import Professor, Turma, Atividade
+from .models import Professor
+from .models import Turma 
+from .models import Atividade
 from django.db import connection, transaction
 from django.contrib import messages #Biblioteca de mensagens de Django
+import openpyxl
 
 # Create your views here.
 
@@ -233,6 +236,60 @@ def exibir_arquivo(request, nome_arquivo):
         return resposta
     else:
         return HttpResponse('Arquivo não encontrado', status=404)
+
+
+def exportar_para_excel_turmas(request):
+    # Consulta para obter os dados que deseja exportar 
+    dados_turma = Turma.objects.all()
+
+    # Criando um novo arquivo excel 
+    workbook = openpyxl.Workbook()
+    sheet = workbook.active
+    sheet.title = 'TURMAS'
+
+    #Escrevendo cabeçalhos 
+    sheet["A1"] = 'ID'
+    sheet["B1"] = 'NOME DA TURMA'
+
+    #Escrevendo os dados 
+    for index, turma in enumerate(dados_turma, start=2):
+        sheet[f'A{index}'] = turma.id
+        sheet[f'B{index}'] = turma.nome_turma
+
+
+    #Salvando o arquivo Excel 
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=turma.xlsx'
+    workbook.save(response)
+    return response
+
+
+def exportar_para_excel_Atividades(request):
+    dados_atividades = Atividade.objects.all()
+
+    workbook = openpyxl.Workbook()
+    sheet = workbook.active
+    sheet.title = "ATIVIDADES"
+
+
+    #Escrevendo cabeçalhos 
+    sheet["A1"] = 'ID'
+    sheet["B1"] = 'NOME DA ATIVIDADE'
+    sheet["C1"] = 'TURMA'
+
+    #Escrevendo os dados 
+    for index, atividade in enumerate(dados_atividades, start=2):
+        sheet[f'A{index}'] = atividade.id
+        sheet[f'B{index}'] = atividade.nome_atividade
+        sheet[f'C{index}'] = atividade.id_turma.nome_turma
+
+
+    #Salvando o arquivo Excel 
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=atividades.xlsx'
+    workbook.save(response)
+    return response 
+
 
 def sair(request):
     return render(request, 'Login.html')
