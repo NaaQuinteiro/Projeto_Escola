@@ -38,9 +38,11 @@
             </ul>
         {% endif %}
 
-        <a href="{% url 'exportar_excel_turma' %}" download>
-        <button>Exportar para Execel</button>
-        </a>
+        <div class="excel">
+            <a href="{% url 'exportar_excel_turma' %}">
+                <button>Exportar<i class="fa-solid fa-file-excel"></i></button>
+            </a>
+        </div>
 
 
         <div class="tabela">
@@ -56,9 +58,10 @@
                     <td>{{igs.id}}</td>
                     <td>{{igs.nome_turma}}</td>
                     <td>
-                        <button id="exclude"><a href = "/valida_excluir/{{igs.id}}?id_professor={{id_logado}}" style="text-decoration: none; color: white;">Excluir</a></button>
+                        <!-- <button id="exclude"><a href = "/valida_excluir/{{igs.id}}?id_professor={{id_logado}}" style="text-decoration: none; color: white;">Excluir</a></button> -->
+                        <button id="exclude"><a href = "{% url 'excluir_turma' id_turma=igs.id%}" style="text-decoration: none; color: white;">Excluir</a></button>
 
-                        <button id="view"><a href="{% url 'lista_atividade' id_selecionado=igs.id %}" style="text-decoration: none; color: white;">Vizualizar</a></button>
+                        <button id="view"><a href="{% url 'lista_atividade' id_selecionado=igs.id %}" style="text-decoration: none; color: white;">Visualizar</a></button>
                     </td>
                 </tr>
                 {% endfor %}

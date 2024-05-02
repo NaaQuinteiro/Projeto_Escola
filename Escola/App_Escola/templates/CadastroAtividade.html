@@ -25,7 +25,7 @@
     <main>
 
         <div class="excel">
-            <a href="{% url 'exportar_excel_atividade' %}" download>
+            <a href="{% url 'exportar_excel_atividade' %}">
                 <button>Exportar<i class="fa-solid fa-file-excel"></i></button>
             </a>
         </div>
@@ -46,7 +46,7 @@
                     <td>{{igs.nome_atividade}}</td>
                     <td>
                         {% if igs.arquivo %}
-                            <a href="../../{{igs.arquivo}}"><p>Arquivo</p></a>
+                            <a href="../../{{igs.arquivo}}"><i class="fa-regular fa-file-lines"></i></a>
                             <!-- <a href="{{igs.arquivo}}"><i class="fa-regular fa-file-lines"></i></a> -->
                         {% else %}
                             <p>Não existe arquivos anexados</p>

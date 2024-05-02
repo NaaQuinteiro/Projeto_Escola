@@ -205,22 +205,36 @@ def lista_atividade(request, id_selecionado):
                    'id_selecionado':id_selecionado })
 
 
-def valida_excluir(request, id_turma):
+# def valida_excluir(request, id_turma):
    
-    id_professor = request.GET.get('id_professor')
+#     id_professor = request.GET.get('id_professor')
    
-    turma = get_object_or_404(Turma, id=id_turma)
+#     turma = get_object_or_404(Turma, id=id_turma)
    
-    if Atividade.objects.filter(id_turma=turma.id):
-        messages.info(request, 'Não é possível excluir esta turma pois ela tem atividades cadastradas.')
+#     if Atividade.objects.filter(id_turma=turma.id):
+#         messages.info(request, 'Não é possível excluir esta turma pois ela tem atividades cadastradas.')
        
-        return redirect('lista_turma', id_professor=id_professor)
+#         return redirect('lista_turma', id_professor=id_professor)
     
-    turma.delete()
+#     turma.delete()
 
-    return redirect('lista_turma', id_professor=id_professor)
+#     return redirect('lista_turma', id_professor=id_professor)
 
+def excluir_turma(request, id_turma):
+    with transaction.atomic():
+        turma = Turma.objects.get(pk=id_turma)
+        id_professor = turma.id_professor_id
 
+        turma.delete()
+
+        professor = Professor.objects.get(pk=id_professor)
+        turmas_professor = Turma.objects.filter(id_professor=id_professor)
+
+    return render(request, "Page_professor.html", {
+        "usuario_logado": professor.nome, 
+        "turmas_do_professor": turmas_professor,
+        "id_logado": id_professor
+    })
 def exibir_arquivo(request, nome_arquivo):
     caminho_arquivo = os.path.join('atividade_arquivos/', nome_arquivo)
 
@@ -271,7 +285,6 @@ def exportar_para_excel_Atividades(request):
     sheet = workbook.active
     sheet.title = "ATIVIDADES"
 
-
     #Escrevendo cabeçalhos 
     sheet["A1"] = 'ID'
     sheet["B1"] = 'NOME DA ATIVIDADE'
@@ -281,9 +294,8 @@ def exportar_para_excel_Atividades(request):
     for index, atividade in enumerate(dados_atividades, start=2):
         sheet[f'A{index}'] = atividade.id
         sheet[f'B{index}'] = atividade.nome_atividade
-        sheet[f'C{index}'] = atividade.id_turma.nome_turma
-
-
+        sheet[f'C{index}'] = str(atividade.id_turma)
+        
     #Salvando o arquivo Excel 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename=atividades.xlsx'
