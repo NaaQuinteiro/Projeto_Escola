@@ -76,7 +76,8 @@ def abre_index(request):
     else: 
         print("Achei o Obama", verifica_populado)
 
-    return render(request, 'Login.html')
+    usuario_logado = request.user.username
+    return render(request, 'Index.html', {'usuario_logado': usuario_logado})
 
 def enviar_login(request):
 
